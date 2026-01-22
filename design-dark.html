@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schindler Machine Works | Est. 1924</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#0f172a', // Slate 900
+                            steel: '#334155', // Slate 700
+                            accent: '#f59e0b', // Amber 500 (Safety Orange/Gold)
+                            blue: '#3b82f6',  // Blue 500 (Blueprint)
+                            light: '#e2e8f0', // Slate 200
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Chakra Petch', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    backgroundImage: {
+                        'grid-pattern': "radial-gradient(circle, #334155 1px, transparent 1px)",
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155; 
+            border: 1px solid #1e293b;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569; 
+        }
+
+        /* Gear Animation */
+        @keyframes slow-spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .animate-gear {
+            animation: slow-spin 20s linear infinite;
+        }
+        
+        /* CRT Scanline Effect */
+        .scanlines {
+            background: linear-gradient(
+                to bottom,
+                rgba(255,255,255,0),
+                rgba(255,255,255,0) 50%,
+                rgba(0,0,0,0.1) 50%,
+                rgba(0,0,0,0.1)
+            );
+            background-size: 100% 4px;
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            z-index: 10;
+            opacity: 0.3;
+        }
+
+        .rivet {
+            box-shadow: inset 2px 2px 5px rgba(255,255,255,0.2), inset -2px -2px 5px rgba(0,0,0,0.5);
+        }
+    </style>
+</head>
+<body class="bg-brand-dark text-brand-light font-sans antialiased selection:bg-brand-accent selection:text-brand-dark">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-brand-dark/95 border-b border-brand-steel backdrop-blur-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo Area -->
+                <div class="flex items-center space-x-3 group cursor-pointer">
+                    <!-- SVG Logo -->
+                    <svg class="h-10 w-10 text-brand-light group-hover:text-brand-accent transition-colors duration-300" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Gear Teeth -->
+                        <path d="M50 0L58 15L74 12L76 29L92 32L88 48L100 56L88 64L92 80L76 83L74 100L58 97L50 112L42 97L26 100L24 83L8 80L12 64L0 56L12 48L8 32L24 29L26 12L42 15L50 0Z" fill="currentColor" class="opacity-20 animate-gear origin-center"/>
+                        <!-- Inner Circle -->
+                        <circle cx="50" cy="56" r="35" stroke="currentColor" stroke-width="4" />
+                        <!-- Circuit "S" -->
+                        <path d="M70 36H50C44.4772 36 40 40.4772 40 46V46C40 51.5228 44.4772 56 50 56H50C55.5228 56 60 60.4772 60 66V66C60 71.5228 55.5228 76 50 76H30" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+                        <circle cx="70" cy="36" r="5" fill="#f59e0b"/>
+                        <circle cx="30" cy="76" r="5" fill="#f59e0b"/>
+                    </svg>
+                    <div class="flex flex-col">
+                        <span class="font-bold text-lg tracking-wider uppercase leading-none">Schindler</span>
+                        <span class="font-mono text-xs text-brand-accent tracking-widest">MACHINE WORKS</span>
+                    </div>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#heritage" class="hover:text-brand-accent px-3 py-2 rounded-md text-sm font-medium transition-colors uppercase tracking-widest">Heritage</a>
+                        <a href="#services" class="hover:text-brand-accent px-3 py-2 rounded-md text-sm font-medium transition-colors uppercase tracking-widest">Capabilities</a>
+                        <a href="#projects" class="hover:text-brand-accent px-3 py-2 rounded-md text-sm font-medium transition-colors uppercase tracking-widest">Blueprints</a>
+                        <a href="#contact" class="bg-brand-accent text-brand-dark hover:bg-white px-4 py-2 rounded-none clip-path-polygon text-sm font-bold uppercase tracking-wider transition-all duration-300">
+                            Requisition Order
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="-mr-2 flex md:hidden">
+                    <button type="button" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="inline-flex items-center justify-center p-2 rounded-md text-brand-light hover:text-white hover:bg-brand-steel focus:outline-none">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div class="hidden md:hidden bg-brand-dark border-b border-brand-steel" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#heritage" class="hover:text-brand-accent block px-3 py-2 text-base font-medium">HERITAGE</a>
+                <a href="#services" class="hover:text-brand-accent block px-3 py-2 text-base font-medium">CAPABILITIES</a>
+                <a href="#projects" class="hover:text-brand-accent block px-3 py-2 text-base font-medium">BLUEPRINTS</a>
+                <a href="#contact" class="text-brand-accent block px-3 py-2 text-base font-medium">CONTACT</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative pt-32 pb-16 md:pt-48 md:pb-32 overflow-hidden border-b border-brand-steel">
+        <!-- Background Grid -->
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCI+CjxwYXRoIGQ9Ik0wIDBoNDB2NDBIMHoiIGZpbGw9Im5vbmUiLz4KPHBhdGggZD0iTTAgNDBWMGg0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMzM0MTU1IiBzdHJva2Utb3BhY2l0eT0iMC4yIiBzdHJva2Utd2lkdGg9IjEiLz4KPC9zdmc+')] opacity-20"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="lg:w-2/3">
+                <div class="inline-flex items-center space-x-2 bg-brand-steel/30 px-3 py-1 rounded-sm border border-brand-steel/50 mb-6">
+                    <span class="w-2 h-2 bg-brand-accent rounded-full animate-pulse"></span>
+                    <span class="text-brand-accent font-mono text-xs tracking-widest uppercase">Systems Operational</span>
+                </div>
+                <h1 class="text-5xl md:text-7xl font-bold text-white uppercase tracking-tight leading-none mb-6">
+                    Digital <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-accent to-yellow-200">Fabrication</span><br>
+                    For the Modern Age.
+                </h1>
+                <p class="mt-4 text-xl text-slate-400 max-w-2xl font-mono leading-relaxed">
+                    Forging robust software infrastructure with the same precision my grandfather used to mill steel in 1924. Heavy-duty code for heavy-duty business.
+                </p>
+                <div class="mt-10 flex flex-col sm:flex-row gap-4">
+                    <a href="#services" class="inline-flex justify-center items-center px-8 py-4 border border-transparent text-base font-bold uppercase tracking-widest text-brand-dark bg-brand-accent hover:bg-white transition-all duration-300 shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)]">
+                        Explore Capabilities
+                        <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                    <a href="#heritage" class="inline-flex justify-center items-center px-8 py-4 border border-brand-steel text-base font-bold uppercase tracking-widest text-brand-light hover:bg-brand-steel/50 transition-all duration-300">
+                        View Heritage
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Decorative blueprint lines -->
+        <div class="absolute right-0 top-1/2 -translate-y-1/2 w-1/3 h-full hidden lg:block opacity-20 pointer-events-none">
+             <svg viewBox="0 0 400 400" fill="none" stroke="#3b82f6" stroke-width="1" class="w-full h-full">
+                <circle cx="200" cy="200" r="150" stroke-dasharray="4 4"/>
+                <circle cx="200" cy="200" r="100"/>
+                <line x1="0" y1="200" x2="400" y2="200" />
+                <line x1="200" y1="0" x2="200" y2="400" />
+                <rect x="150" y="150" width="100" height="100" stroke-dasharray="2 2"/>
+            </svg>
+        </div>
+    </header>
+
+    <!-- Heritage Section -->
+    <section id="heritage" class="py-20 bg-brand-dark border-b border-brand-steel relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <!-- Text Content -->
+                <div>
+                    <h2 class="text-brand-accent font-mono text-sm tracking-widest uppercase mb-2">Since 1924</h2>
+                    <h3 class="text-4xl font-bold text-white uppercase mb-6">From Lathes to Lambda Functions</h3>
+                    <div class="space-y-4 text-slate-300 font-mono text-sm leading-relaxed border-l-2 border-brand-steel pl-6">
+                        <p>
+                            For 100 years, the name <strong class="text-white">Schindler</strong> has been synonymous with precision engineering. My grandfather built physical machines—gears, shafts, and pistons that powered the industrial boom. He believed that if you build it right, it lasts forever.
+                        </p>
+                        <p>
+                            Today, Schindler Machine Works operates in a new dimension. The materials have changed from cast iron to cloud infrastructure, from grease to git repositories. But the philosophy remains unchanged.
+                        </p>
+                        <p>
+                            We don't just "write code." We engineer digital machinery designed to withstand the load of modern enterprise.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Visual Element -->
+                <div class="relative">
+                    <div class="absolute -inset-4 border border-brand-accent/30 z-0"></div>
+                    <div class="absolute -inset-4 rotate-2 border border-brand-blue/30 z-0"></div>
+                    <div class="relative z-10 bg-brand-steel p-1">
+                        <div class="bg-brand-dark p-8 border border-brand-steel/50 flex flex-col items-center justify-center h-80 relative overflow-hidden group">
+                            <!-- Overlay Text -->
+                            <div class="absolute top-4 left-4 z-20">
+                                <span class="block text-xs font-mono text-brand-accent">FIG 1.A: EVOLUTION</span>
+                            </div>
+
+                            <div class="flex items-center space-x-8 opacity-80 group-hover:opacity-100 transition-opacity">
+                                <i class="fas fa-cog text-6xl text-slate-600"></i>
+                                <i class="fas fa-arrow-right text-brand-accent"></i>
+                                <i class="fas fa-microchip text-6xl text-brand-blue"></i>
+                            </div>
+                            
+                            <p class="mt-8 text-center font-mono text-xs text-slate-400">
+                                TRANSFERRING INDUSTRIAL DISCIPLINE<br>TO DIGITAL ECOSYSTEMS.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services / Machinery -->
+    <section id="services" class="py-20 bg-slate-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-5xl font-bold text-white uppercase tracking-tight">Capabilities</h2>
+                <div class="w-24 h-1 bg-brand-accent mx-auto mt-4"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Card 1 -->
+                <div class="group relative bg-brand-dark border border-brand-steel hover:border-brand-accent transition-colors duration-300 p-8">
+                    <!-- Rivets -->
+                    <div class="absolute top-2 left-2 w-2 h-2 rounded-full bg-slate-700 rivet"></div>
+                    <div class="absolute top-2 right-2 w-2 h-2 rounded-full bg-slate-700 rivet"></div>
+                    <div class="absolute bottom-2 left-2 w-2 h-2 rounded-full bg-slate-700 rivet"></div>
+                    <div class="absolute bottom-2 right-2 w-2 h-2 rounded-full bg-slate-700 rivet"></div>
+
+                    <div class="text-brand-accent text-4xl mb-6">
+                        <i class="fas fa-layer-group"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white uppercase mb-4 group-hover:text-brand-accent transition-colors">Digital Fabrication</h3>
+                    <p class="text-slate-400 font-mono text-sm mb-6">
+                        Custom web and mobile application development. We build the user-facing heavy equipment your customers rely on daily.
+                    </p>
+                    <ul class="text-xs font-mono text-brand-blue space-y-2">
+                        <li>> React / Next.js Assembly</li>
+                        <li>> Mobile App Forging</li>
+                        <li>> UI/UX Blueprinting</li>
+                    </ul>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="group relative bg-brand-dark border border-brand-steel hover:border-brand-accent transition-colors duration-300 p-8">
+                    <!-- Rivets -->
+                    <div class="absolute top-2 left-2 w-2 h-2 rounded-full bg-slate-700 rivet"></div>
+                    <div class="absolute top-2 right-2 w-2 h-2 rounded-full bg-slate-700 rivet"></div>
+                    <div class="absolute bottom-2 left-2 w-2 h-2 rounded-full bg-slate-700 rivet"></div>
+                    <div class="absolute bottom-2 right-2 w-2 h-2 rounded-full bg-slate-700 rivet"></div>
+
+                    <div class="text-brand-accent text-4xl mb-6">
+                        <i class="fas fa-server"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white uppercase mb-4 group-hover:text-brand-accent transition-colors">Infrastructure</h3>
+                    <p class="text-slate-400 font-mono text-sm mb-6">
+                        Scalable cloud architecture. We weld together AWS, Google Cloud, and Azure services to create unshakeable foundations.
+                    </p>
+                    <ul class="text-xs font-mono text-brand-blue space-y-2">
+                        <li>> Cloud Migration</li>
+                        <li>> Serverless Architectures</li>
+                        <li>> Database Optimization</li>
+                    </ul>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="group relative bg-brand-dark border border-brand-steel hover:border-brand-accent transition-colors duration-300 p-8">
+                    <!-- Rivets -->
+                    <div class="absolute top-2 left-2 w-2 h-2 rounded-full bg-slate-700 rivet"></div>
+                    <div class="absolute top-2 right-2 w-2 h-2 rounded-full bg-slate-700 rivet"></div>
+                    <div class="absolute bottom-2 left-2 w-2 h-2 rounded-full bg-slate-700 rivet"></div>
+                    <div class="absolute bottom-2 right-2 w-2 h-2 rounded-full bg-slate-700 rivet"></div>
+
+                    <div class="text-brand-accent text-4xl mb-6">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white uppercase mb-4 group-hover:text-brand-accent transition-colors">Cognitive Engineering</h3>
+                    <p class="text-slate-400 font-mono text-sm mb-6">
+                        Artificial Intelligence integration. Automating the intellectual labor of your business with precision LLMs and agents.
+                    </p>
+                    <ul class="text-xs font-mono text-brand-blue space-y-2">
+                        <li>> RAG Implementation</li>
+                        <li>> Process Automation</li>
+                        <li>> Data Analysis Bots</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats / Trust Strip -->
+    <div class="bg-brand-accent text-brand-dark py-12 border-y-4 border-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center font-mono">
+                <div>
+                    <div class="text-4xl font-bold">100+</div>
+                    <div class="text-xs uppercase tracking-widest font-bold mt-1">Years of Name</div>
+                </div>
+                <div>
+                    <div class="text-4xl font-bold">99.9%</div>
+                    <div class="text-xs uppercase tracking-widest font-bold mt-1">Uptime Goal</div>
+                </div>
+                <div>
+                    <div class="text-4xl font-bold">24/7</div>
+                    <div class="text-xs uppercase tracking-widest font-bold mt-1">Monitoring</div>
+                </div>
+                <div>
+                    <div class="text-4xl font-bold">Zero</div>
+                    <div class="text-xs uppercase tracking-widest font-bold mt-1">Tolerance for Bugs</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact / Footer -->
+    <section id="contact" class="bg-brand-dark pt-20 pb-10 border-t border-brand-steel">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+                
+                <!-- Contact Form Area -->
+                <div class="bg-slate-800/50 p-8 border border-brand-steel relative">
+                    <!-- "Tape" effect -->
+                    <div class="absolute -top-3 left-1/2 -translate-x-1/2 w-32 h-6 bg-yellow-400/80 rotate-1 shadow-sm"></div>
+
+                    <h3 class="text-xl font-bold text-white uppercase mb-6 flex items-center">
+                        <i class="fas fa-clipboard-list mr-3 text-brand-accent"></i> 
+                        Project Requisition
+                    </h3>
+                    
+                    <form class="space-y-4 font-mono text-sm">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-brand-blue mb-1 text-xs uppercase">Operator Name</label>
+                                <input type="text" class="w-full bg-brand-dark border border-brand-steel text-white px-3 py-2 focus:border-brand-accent focus:outline-none transition-colors">
+                            </div>
+                            <div>
+                                <label class="block text-brand-blue mb-1 text-xs uppercase">Company ID</label>
+                                <input type="text" class="w-full bg-brand-dark border border-brand-steel text-white px-3 py-2 focus:border-brand-accent focus:outline-none transition-colors">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-brand-blue mb-1 text-xs uppercase">Communication Channel (Email)</label>
+                            <input type="email" class="w-full bg-brand-dark border border-brand-steel text-white px-3 py-2 focus:border-brand-accent focus:outline-none transition-colors">
+                        </div>
+                        <div>
+                            <label class="block text-brand-blue mb-1 text-xs uppercase">Project Specifications</label>
+                            <textarea rows="4" class="w-full bg-brand-dark border border-brand-steel text-white px-3 py-2 focus:border-brand-accent focus:outline-none transition-colors"></textarea>
+                        </div>
+                        <button type="button" class="w-full bg-brand-steel hover:bg-brand-accent hover:text-brand-dark text-white font-bold py-3 uppercase tracking-widest transition-all duration-300 border border-brand-light/10">
+                            Submit Requisition
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Info -->
+                <div class="flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center space-x-3 mb-6">
+                            <svg class="h-8 w-8 text-brand-accent" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M50 0L58 15L74 12L76 29L92 32L88 48L100 56L88 64L92 80L76 83L74 100L58 97L50 112L42 97L26 100L24 83L8 80L12 64L0 56L12 48L8 32L24 29L26 12L42 15L50 0Z" fill="currentColor"/>
+                                <circle cx="50" cy="56" r="20" fill="#0f172a"/>
+                            </svg>
+                            <span class="text-2xl font-bold uppercase text-white tracking-wider">Schindler <br><span class="text-brand-accent text-sm block">Machine Works</span></span>
+                        </div>
+                        <p class="text-slate-400 font-mono mb-8 max-w-sm">
+                            Combining century-old industrial values with cutting-edge digital craftsmanship.
+                        </p>
+                        
+                        <div class="space-y-4 font-mono text-sm text-slate-300">
+                            <div class="flex items-center">
+                                <i class="fas fa-map-marker-alt w-6 text-brand-accent"></i>
+                                <span>Digital Headquarters / Remote Fabrication</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-envelope w-6 text-brand-accent"></i>
+                                <span>foreman@schindlermachine.com</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-wrench w-6 text-brand-accent"></i>
+                                <span>Est. 1924</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-12 lg:mt-0">
+                        <p class="text-xs text-slate-600 font-mono uppercase">
+                            © 2024 Schindler Machine Works. All Rights Reserved.<br>
+                            Built with heavy duty pixels.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>
